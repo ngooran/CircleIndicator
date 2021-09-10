@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@id/viewpager"
@@ -11,16 +13,21 @@
     <me.relex.circleindicator.CircleIndicator3
         android:id="@id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="48dp"/>
+        android:layout_height="64dp"
+        android:layout_gravity="top"
+        android:layout_marginBottom="48dp"
+        app:ci_width="32dp"
+        app:ci_height="32dp"
+        app:ci_margin="12dp"
+        app:ci_show_numbers="true"
+        tools:background="@color/cardview_shadow_start_color"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@id/add"
         style="@style/DefaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="bottom|end"
         android:text="@string/add"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -28,7 +35,7 @@
         style="@style/DefaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="bottom|start"
         android:text="@string/remove"/>
 
 </FrameLayout>

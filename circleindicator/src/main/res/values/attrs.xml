@@ -2,6 +2,7 @@
 <resources>
 
     <declare-styleable name="BaseCircleIndicator">
+        <attr name="ci_show_numbers" format="boolean"/>
         <attr name="ci_width" format="dimension"/>
         <attr name="ci_height" format="dimension"/>
         <attr name="ci_margin" format="dimension"/>

@@ -14,6 +14,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -21,10 +23,13 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.ViewCompat;
 
+import java.util.Locale;
+
 class BaseCircleIndicator extends LinearLayout {
 
     private final static int DEFAULT_INDICATOR_WIDTH = 5;
 
+    protected boolean mShowNumbers = false;
     protected int mIndicatorMargin = -1;
     protected int mIndicatorWidth = -1;
     protected int mIndicatorHeight = -1;
@@ -82,6 +87,8 @@ class BaseCircleIndicator extends LinearLayout {
         }
         TypedArray typedArray =
                 context.obtainStyledAttributes(attrs, R.styleable.BaseCircleIndicator);
+        config.showNumbers =
+                typedArray.getBoolean(R.styleable.BaseCircleIndicator_ci_show_numbers, false);
         config.width =
                 typedArray.getDimensionPixelSize(R.styleable.BaseCircleIndicator_ci_width, -1);
         config.height =
@@ -108,6 +115,7 @@ class BaseCircleIndicator extends LinearLayout {
     public void initialize(Config config) {
         int miniSize = (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 DEFAULT_INDICATOR_WIDTH, getResources().getDisplayMetrics()) + 0.5f);
+        mShowNumbers = config.showNumbers;
         mIndicatorWidth = (config.width < 0) ? miniSize : config.width;
         mIndicatorHeight = (config.height < 0) ? miniSize : config.height;
         mIndicatorMargin = (config.margin < 0) ? miniSize : config.margin;
@@ -201,7 +209,7 @@ class BaseCircleIndicator extends LinearLayout {
             int addCount = count - childViewCount;
             int orientation = getOrientation();
             for (int i = 0; i < addCount; i++) {
-                addIndicator(orientation);
+                addIndicator(orientation, i);
             }
         }
 
@@ -232,8 +240,13 @@ class BaseCircleIndicator extends LinearLayout {
         mLastPosition = currentPosition;
     }
 
-    protected void addIndicator(int orientation) {
-        View indicator = new View(getContext());
+    protected void addIndicator(int orientation, int indicatorNumber) {
+        TextView indicator = new TextView(getContext());
+        if (mShowNumbers) {
+            indicator.setText(String.format(Locale.getDefault(), "%d", indicatorNumber + 1));
+            indicator.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+            indicator.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        }
         final LayoutParams params = generateDefaultLayoutParams();
         params.width = mIndicatorWidth;
         params.height = mIndicatorHeight;
@@ -244,6 +257,7 @@ class BaseCircleIndicator extends LinearLayout {
             params.topMargin = mIndicatorMargin;
             params.bottomMargin = mIndicatorMargin;
         }
+        params.gravity = Gravity.CENTER;
         addView(indicator, params);
     }
 

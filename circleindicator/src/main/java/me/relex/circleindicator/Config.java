@@ -16,6 +16,7 @@ public class Config {
     @DrawableRes int unselectedBackgroundId;
     int orientation = LinearLayout.HORIZONTAL;
     int gravity = Gravity.CENTER;
+    boolean showNumbers = false;
 
     Config() {
     }
@@ -26,6 +27,11 @@ public class Config {
 
         public Builder() {
             mConfig = new Config();
+        }
+
+        public Builder showNumbers(boolean showNumbers) {
+            mConfig.showNumbers = showNumbers;
+            return this;
         }
 
         public Builder width(int width) {
